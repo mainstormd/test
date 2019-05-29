@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 namespace ConsoleApp1
 {
 
-    public interface IGoals {
-        void Add(string Goal);
-        string Get(int Number);
-    }
-
-    abstract class Goals : IGoals
+     class Goals 
     {
         private List<string> _goals = new List<string> ();
 
@@ -29,9 +24,7 @@ namespace ConsoleApp1
             return _goals.Count == 0 || _goals.Count < Number ? "Empty" : _goals[Number];
         }
     }
-    class GoalsIndividual : Goals { };
-    class GoalsWork : Goals { };
-    class GoalsFamilly : Goals { };
+    
     class GoalsWriter
     {
         private List<Goals> _goals;
@@ -57,10 +50,16 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            GoalsIndividual goalsIndividual = new GoalsIndividual();
-            GoalsWork goalsWork = new GoalsWork();
-            GoalsFamilly goalsFamilly = new GoalsFamilly();
+            Goals goalsIndividual = new Goals();
+            Goals goalsWork = new Goals();
+            Goals goalsFamilly = new Goals();
             GoalsWriter writer = new GoalsWriter(new List<Goals> { goalsIndividual, goalsWork, goalsFamilly });
+            Dictionary<string, Goals> states = new Dictionary<string, Goals> {
+                { "рабочий", goalsWork },
+                { "личный", goalsIndividual},
+                { "семейный", goalsWork }
+
+            };
 
             while (true)
             {
@@ -73,21 +72,12 @@ namespace ConsoleApp1
                 Console.WriteLine("Что это за цель?");
                 string goal = Console.ReadLine();
 
-                switch (listName)
-                {
-                    case "рабочий":
-                        goalsWork.Add(goal);
-                        break;
-                    case "личный":
-                        goalsIndividual.Add(goal);
-                        break;
-                    case "семейный":
-                        goalsFamilly.Add(goal);
-                        break;
 
-                }
+                if (states.ContainsKey(listName))
+                    states[listName].Add(goal);
+                
 
-                Console.ReadLine();
+
             }
         }
     }
