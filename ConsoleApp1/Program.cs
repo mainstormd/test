@@ -54,7 +54,7 @@ namespace ConsoleApp1
             Goals goalsWork = new Goals();
             Goals goalsFamilly = new Goals();
             GoalsWriter writer = new GoalsWriter(new List<Goals> { goalsIndividual, goalsWork, goalsFamilly });
-            Dictionary<string, Goals> states = new Dictionary<string, Goals> {
+            Dictionary<string, Goals> goalsTypes = new Dictionary<string, Goals> {
                 { "рабочий", goalsWork },
                 { "личный", goalsIndividual},
                 { "семейный", goalsWork }
@@ -72,11 +72,8 @@ namespace ConsoleApp1
                 Console.WriteLine("Что это за цель?");
                 string goal = Console.ReadLine();
 
-
-                if (states.ContainsKey(listName))
-                    states[listName].Add(goal);
-                
-
+                if (goalsTypes.ContainsKey(listName))
+                    goalsTypes[listName].Add(goal);
 
             }
         }
